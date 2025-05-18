@@ -1,0 +1,24 @@
+services:
+  postgres:
+    container_name: cnpj_postgres
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-dados_cnpj}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres_data:/data/postgres
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    restart: unless-stopped
+    networks:
+      - cnpj_network
+
+networks:
+  cnpj_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
